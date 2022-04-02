@@ -7,7 +7,7 @@ const AuthenticationController = (app: Express) => {
     
     const userDao: UserDao = UserDao.getInstance();
 
-    const login = async (req: Request, res: Response) => {
+    const login = async (req: any, res: any) => {
 
         console.log("==> login")
         console.log("==> req.session")
@@ -31,7 +31,7 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
-    const register = async (req: Request, res: Response) => {
+    const register = async (req: any, res: any) => {
         console.log("==> register")
         console.log("==> req.session")
         console.log(req.session)
@@ -56,7 +56,7 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
-    const profile = (req: Request, res: Response) => {
+    const profile = (req: any, res: any) => {
         // @ts-ignore
         const profile = req.session['profile'];
         if (profile) {
@@ -66,7 +66,7 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
-    const logout = (req: Request, res: Response) => {
+    const logout = (req: any, res: any) => {
         // @ts-ignore
         req.session.destroy();
         res.sendStatus(200);

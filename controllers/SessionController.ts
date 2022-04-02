@@ -1,7 +1,7 @@
 import {Request, Response, Express} from "express";
 
 const SessionController = (app: Express) => {
-    const setSession = (req: Request, res: Response) => {
+    const setSession = (req: any, res: any) => {
         var name = req.params['name'];
         var value = req.params['value'];
         // @ts-ignore
@@ -9,17 +9,17 @@ const SessionController = (app: Express) => {
         res.send(req.session);
     }
 
-    const getSession = (req: Request, res: Response) => {
+    const getSession = (req: any, res: any) => {
         var name = req.params['name'];
         // @ts-ignore
         var value = req.session[name];
         res.send(value);
     }
-    const getSessionAll = (req: Request, res: Response) => {
+    const getSessionAll = (req: any, res: any) => {
         // @ts-ignore
         res.send(req.session);
     }
-    const resetSession = (req: Request, res: Response) => {
+    const resetSession = (req: any, res: any) => {
         // @ts-ignore
         req.session.destroy();
         res.send(200);
