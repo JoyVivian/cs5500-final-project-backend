@@ -4,9 +4,9 @@ import mongoose from "mongoose";
 const userDao: UserDao = UserDao.getInstance();
 
 const PROTOCOL = "mongodb+srv";
-const DB_USERNAME = "giuseppi";//process.env.DB_USERNAME;
-const DB_PASSWORD = "supersecretpassword";//process.env.DB_PASSWORD;
-const HOST = "cluster0.m8jeh.mongodb.net";
+const DB_USERNAME = process.env.DB_USERNAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const HOST = "cluster0.dgng5.mongodb.net";
 const DB_NAME = "myFirstDatabase";
 const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;

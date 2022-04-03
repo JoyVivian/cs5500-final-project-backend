@@ -5,6 +5,7 @@
  *     <li>users</li>
  *     <li>tuits</li>
  *     <li>likes</li>
+ *     <li>dislikes</li>
  * </ul>
  * 
  * Connects to a remote MongoDB instance hosted on the Atlas cloud database
@@ -15,6 +16,7 @@ import CourseController from "./controllers/CourseController";
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
+import DislikeController from "./controllers/DislikeController";
 import SessionController from "./controllers/SessionController";
 import AuthenticationController from "./controllers/AuthenticationController";
 import mongoose from "mongoose";
@@ -36,17 +38,17 @@ mongoose.connect(connectionString);
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: process.env.CORS_ORIGIN
+    origin: "https://resonant-capybara-859716.netlify.app"
 }));
 
 let sess = {
     secret: process.env.EXPRESS_SESSION_SECRET,
     saveUninitialized: true,
     resave: true,
-    // cookie: {
-    //     sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
-    //     secure: process.env.NODE_ENV === "production",
-    // }
+    cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
+    }
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -67,6 +69,7 @@ const courseController = new CourseController(app);
 const userController = UserController.getInstance(app);
 const tuitController = TuitController.getInstance(app);
 const likesController = LikeController.getInstance(app);
+const dislikesController = DislikeController.getInstance(app);
 SessionController(app);
 AuthenticationController(app);
 GroupController(app);
