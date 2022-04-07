@@ -17,7 +17,7 @@ import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
 import FollowController from "./controllers/FollowController";
-import BookmarkController from "./controllers/BookMarkController";
+import BookmarkController from "./controllers/BookmarkController";
 import DislikeController from "./controllers/DislikeController";
 import SessionController from "./controllers/SessionController";
 import AuthenticationController from "./controllers/AuthenticationController";
