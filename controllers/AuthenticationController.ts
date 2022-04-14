@@ -66,16 +66,27 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    const lists = (req: any, res: any) => {
+        const lists = req.session['lists'];
+        if (lists) {
+            res.json(lists);
+        } else {
+            res.sendStatus(403);
+        }
+    }
+
     const logout = (req: any, res: any) => {
         // @ts-ignore
         req.session.destroy();
         res.sendStatus(200);
     }
 
+
     app.post("/api/auth/login", login);
     app.post("/api/auth/register", register);
     app.post("/api/auth/profile", profile);
     app.post("/api/auth/logout", logout);
+    app.post("/api/auth/lists", lists);
 }
 
 export default AuthenticationController;
