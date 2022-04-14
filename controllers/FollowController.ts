@@ -75,9 +75,17 @@ export default class FollowController implements FollowControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON arrays containing the user objects
      */
-    findAllUsersFollowedByUser = (req: Request, res: Response) =>
-        FollowController.followDao.findAllUsersFollowedByUser(req.params.uid)
+    findAllUsersFollowedByUser = (req: Request, res: Response) => {
+        const uid = req.params.uid;
+        // @ts-ignore
+        const profile = req.session['profile'];
+        const userId = uid === "me" && profile ?
+            profile._id : uid;
+
+        FollowController.followDao.findAllUsersFollowedByUser(userId)
             .then(follows => res.json(follows));
+    }
+
 
     /**
      * Retrieves all users that followed a user from the database.
@@ -86,9 +94,17 @@ export default class FollowController implements FollowControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON arrays containing the user objects
      */
-    findAllUsersThatFollowUser = (req: Request, res: Response) =>
-        FollowController.followDao.findAllUsersThatFollowUser(req.params.uid)
+    findAllUsersThatFollowUser = (req: Request, res: Response) => {
+        const uid = req.params.uid;
+        // @ts-ignore
+        const profile = req.session['profile'];
+        const userId = uid === "me" && profile ?
+            profile._id : uid;
+
+        FollowController.followDao.findAllUsersThatFollowUser(userId)
             .then(follows => res.json(follows));
+    }
+
 
 
     userToggleUserFollows = async (req: Request, res: Response) => {
