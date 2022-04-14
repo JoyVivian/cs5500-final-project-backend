@@ -35,8 +35,7 @@ export default class FollowController implements FollowControllerI {
     public static getInstance = (app: Express): FollowController => {
         if(FollowController.followController === null) {
             FollowController.followController = new FollowController();
-            app.post("/api/users/:uid1/follows/:uid2", FollowController.followController.userFollowsAnotherUser);
-            app.delete("/api/users/:uid1/follows/:uid2", FollowController.followController.userUnfollowsAnotherUser);
+            app.put("/api/users/:uid1/follows/:uid2", FollowController.followController.userToggleUserFollows);
             app.get("/api/users/:uid/following", FollowController.followController.findAllUsersFollowedByUser);
             app.get("/api/users/:uid/followers", FollowController.followController.findAllUsersThatFollowUser);
         }
@@ -90,4 +89,34 @@ export default class FollowController implements FollowControllerI {
     findAllUsersThatFollowUser = (req: Request, res: Response) =>
         FollowController.followDao.findAllUsersThatFollowUser(req.params.uid)
             .then(follows => res.json(follows));
+
+
+    userToggleUserFollows = async (req: Request, res: Response) => {
+        const followDao = FollowController.followDao;
+        const uid2 = req.params.uid2;
+        const uid1 = req.params.uid1;
+
+        // @ts-ignore
+        const profile = req.session['profile'];
+        const userId = uid1 === "me" && profile ?
+            profile._id : uid1;
+
+        try {
+            const userAlreadyFollowsUser = await followDao.findUserFollowAnotherUser(userId, uid2);
+            //TODO: delete this console log.
+            console.log(userAlreadyFollowsUser);
+            if (Object.keys(userAlreadyFollowsUser).length === 0) {
+                //TODO: delete this console log.
+                console.log("can not find.");
+                await FollowController.followDao.userFollowsAnotherUser(userId, uid2);
+            } else {
+                //TODO: delete this console log.
+                console.log("can find.");
+                await followDao.userUnfollowsAnotherUser(userId, uid2);
+            }
+            res.sendStatus(200);
+        } catch (e) {
+            res.sendStatus(404);
+        }
+    }
 };
