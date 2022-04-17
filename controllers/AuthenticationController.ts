@@ -65,6 +65,16 @@ const AuthenticationController = (app: Express) => {
             res.sendStatus(403);
         }
     }
+    // const bookmark = (req: any, res: any) => {
+    //     // @ts-ignore
+    //     const bookmark = req.session['bookmark'];
+    //     if (bookmark) {
+    //         res.json(bookmark);
+    //     } else {
+    //         res.sendStatus(403);
+    //     }
+    // }
+
 
     const logout = (req: any, res: any) => {
         // @ts-ignore
@@ -76,6 +86,7 @@ const AuthenticationController = (app: Express) => {
     app.post("/api/auth/register", register);
     app.post("/api/auth/profile", profile);
     app.post("/api/auth/logout", logout);
+    // app.post("/api/auth/bookmark", bookmark);
 }
 
 export default AuthenticationController;

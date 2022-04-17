@@ -1,6 +1,8 @@
 import BookmarkDaoI from "../interfaces/BookmarkDaoI";
 import BookmarkModel from "../mongoose/bookmarks/BookmarkModel";
 import Bookmark from "../models/bookmarks/Bookmark";
+import Like from "../models/likes/Like";
+import LikeModel from "../mongoose/likes/LikeModel";
 
 export default class BookmarkDao implements BookmarkDaoI {
 
@@ -15,13 +17,19 @@ export default class BookmarkDao implements BookmarkDaoI {
     findAllTuitsBookmarkedByUser = async (uid:string): Promise<Bookmark[]> =>
         BookmarkModel
             .find({bookmarkedBy: uid})
-            .populate("tuit")
+            .populate({
+                path: "tuit",
+                populate: {
+                    path: "postedBy"
+                }
+            })
             .exec();
     findAllUsersThatBookmarkedTuit = async (tid:string): Promise<Bookmark[]> =>
         BookmarkModel
             .find({tuit:tid})
             .populate("bookmarkedBy")
             .exec()
+
     userBookmarksTuit = async (uid: string, tid: string): Promise<any> =>
         BookmarkModel.create({tuit: tid, bookmarkedBy: uid});
     userUnbookmarksTuit = async (uid: string, tid: string): Promise<any> =>
